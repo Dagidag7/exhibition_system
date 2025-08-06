@@ -1,0 +1,48 @@
+.dialog-container {
+  padding: 20px;
+  min-width: 500px;
+}
+
+.form-row {
+  margin-bottom: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  padding-top: 20px;
+  margin-bottom: 0;
+}
+
+mat-dialog-actions button {
+  margin-left: 10px;
+}
+
+mat-dialog-content {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 600px) {
+  .dialog-container {
+    min-width: 300px;
+    padding: 15px;
+  }
+} 

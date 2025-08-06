@@ -1,0 +1,55 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h2>
+  
+  <mat-dialog-content>
+    <form [formGroup]="productForm" class="product-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter product name" required>
+        <mat-error *ngIf="productForm.get('name')?.hasError('required')">
+          Product name is required
+        </mat-error>
+        <mat-error *ngIf="productForm.get('name')?.hasError('maxlength')">
+          Product name cannot exceed 100 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="Enter product description" rows="3"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Exhibitor</mat-label>
+        <mat-select formControlName="exhibitorId" required>
+          <mat-option *ngFor="let exhibitor of exhibitors" [value]="exhibitor.exhibitorId">
+            {{ exhibitor.name }} (ID: {{ exhibitor.exhibitorId }})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="productForm.get('exhibitorId')?.hasError('required')">
+          Exhibitor is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Category</mat-label>
+        <input matInput formControlName="category" placeholder="Enter product category">
+        <mat-error *ngIf="productForm.get('category')?.hasError('maxlength')">
+          Category cannot exceed 50 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Image URL</mat-label>
+        <input matInput formControlName="imageUrl" placeholder="Enter image URL">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="productForm.invalid">
+      {{ isEditMode ? 'Update' : 'Add' }} Product
+    </button>
+  </mat-dialog-actions>
+</div> 

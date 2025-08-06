@@ -1,0 +1,87 @@
+<div class="register-dialog">
+    <mat-card>
+    <mat-card-header>
+        <mat-card-title>Register as Attendee</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Full Name</mat-label>
+            <input matInput [(ngModel)]="attendee.name" name="name" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [(ngModel)]="attendee.email" name="email" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Phone Number</mat-label>
+            <input matInput [(ngModel)]="attendee.phone" name="phone" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Create Password</mat-label>
+          <input matInput 
+                 [type]="showPassword ? 'text' : 'password'" 
+                 [(ngModel)]="attendee.password" 
+                 name="password" 
+                 required
+                 minlength="6">
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+            <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- Password Strength Indicator -->
+        <div class="password-strength" *ngIf="attendee.password">
+          <div class="strength-bar">
+            <div class="strength-fill" 
+                 [style.width]="attendee.password.length >= 6 ? (attendee.password.length >= 10 ? '100%' : '60%') : '30%'"
+                 [style.background-color]="getPasswordStrengthColor()">
+            </div>
+          </div>
+          <span class="strength-text" [style.color]="getPasswordStrengthColor()">
+            {{ getPasswordStrength() | titlecase }}
+          </span>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput 
+                 [type]="showConfirmPassword ? 'text' : 'password'" 
+                 [(ngModel)]="confirmPassword" 
+                 name="confirmPassword" 
+                 required>
+          <button mat-icon-button matSuffix (click)="toggleConfirmPasswordVisibility()" type="button">
+            <mat-icon>{{showConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- Password Match Indicator -->
+        <div class="password-match" *ngIf="confirmPassword">
+          <mat-icon [style.color]="attendee.password === confirmPassword ? '#4caf50' : '#f44336'">
+            {{ attendee.password === confirmPassword ? 'check_circle' : 'error' }}
+          </mat-icon>
+          <span [style.color]="attendee.password === confirmPassword ? '#4caf50' : '#f44336'">
+            {{ attendee.password === confirmPassword ? 'Passwords match' : 'Passwords do not match' }}
+          </span>
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()" [disabled]="isSubmitting">
+            Cancel
+          </button>
+          <button mat-raised-button 
+                  color="primary" 
+                  type="submit" 
+                  [disabled]="isSubmitting || !registerForm.form.valid">
+            <mat-icon *ngIf="isSubmitting">hourglass_empty</mat-icon>
+            {{ isSubmitting ? 'Registering...' : 'Register' }}
+            </button>
+        </div>
+        </form>
+    </mat-card-content>
+    </mat-card>
+</div>

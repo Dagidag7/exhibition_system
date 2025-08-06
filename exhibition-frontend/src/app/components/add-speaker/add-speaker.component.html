@@ -1,0 +1,46 @@
+<div class="speaker-form-container">
+  <h2 mat-dialog-title>{{ isEditMode ? 'Edit Speaker' : 'Add New Speaker' }}</h2>
+  <form [formGroup]="speakerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" maxlength="100" placeholder="Enter speaker name">
+      <mat-error *ngIf="speakerForm.get('name')?.hasError('required')">Name is required</mat-error>
+      <mat-error *ngIf="speakerForm.get('name')?.hasError('maxlength')">Name cannot exceed 100 characters</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Bio</mat-label>
+      <textarea matInput formControlName="bio" rows="3" placeholder="Enter speaker bio"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Expertise</mat-label>
+      <input matInput formControlName="expertise" maxlength="200" placeholder="Enter expertise">
+      <mat-error *ngIf="speakerForm.get('expertise')?.hasError('maxlength')">Expertise cannot exceed 200 characters</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" maxlength="100" placeholder="Enter email">
+      <mat-error *ngIf="speakerForm.get('email')?.hasError('email')">Invalid email address</mat-error>
+      <mat-error *ngIf="speakerForm.get('email')?.hasError('maxlength')">Email cannot exceed 100 characters</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone" maxlength="20" placeholder="Enter phone number">
+      <mat-error *ngIf="speakerForm.get('phone')?.hasError('maxlength')">Phone cannot exceed 20 characters</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Organization</mat-label>
+      <input matInput formControlName="organization" maxlength="100" placeholder="Enter organization">
+      <mat-error *ngIf="speakerForm.get('organization')?.hasError('maxlength')">Organization cannot exceed 100 characters</mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!speakerForm.valid">{{ isEditMode ? 'Update' : 'Add' }} Speaker</button>
+    </div>
+  </form>
+</div> 

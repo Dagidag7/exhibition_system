@@ -1,0 +1,113 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Global blue/teal theme consistency */
+:root {
+  --primary-blue: #1A5276;
+  --secondary-blue: #2E86AB;
+  --light-blue: #E3F2FD;
+  --accent-blue: #007BFF;
+  --teal-blue: #00838F;
+}
+
+/* Material Design overrides for consistent theming */
+.mat-mdc-raised-button.mat-primary {
+  background-color: var(--accent-blue) !important;
+}
+
+.mat-mdc-fab.mat-primary {
+  background-color: var(--accent-blue) !important;
+}
+
+.mat-mdc-checkbox.mat-primary .mdc-checkbox .mdc-checkbox__background {
+  border-color: var(--accent-blue) !important;
+}
+
+.mat-mdc-checkbox.mat-primary .mdc-checkbox .mdc-checkbox__background .mdc-checkbox__checkmark {
+  color: var(--accent-blue) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-focus-overlay {
+  background-color: var(--light-blue) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-label {
+  color: var(--accent-blue) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-underline {
+  background-color: var(--accent-blue) !important;
+}
+
+.mat-mdc-tab-group.mat-primary .mat-mdc-tab-label-container .mat-mdc-tab-label.mat-mdc-tab-active {
+  color: var(--accent-blue) !important;
+}
+
+.mat-mdc-tab-group.mat-primary .mat-mdc-tab-label-container .mat-mdc-tab-ink-bar {
+  background-color: var(--accent-blue) !important;
+}
+
+.mat-mdc-progress-bar.mat-primary .mdc-linear-progress__bar-inner {
+  border-color: var(--accent-blue) !important;
+}
+
+.mat-mdc-progress-bar.mat-primary .mdc-linear-progress__buffer-bar {
+  background-color: var(--light-blue) !important;
+}
+
+.mat-mdc-chip.mat-primary {
+  background-color: var(--accent-blue) !important;
+  color: white !important;
+}
+
+.mat-mdc-snack-bar-container.mat-primary .mdc-snackbar__surface {
+  background-color: var(--accent-blue) !important;
+}
+
+.mat-mdc-dialog-container.mat-primary .mdc-dialog__surface {
+  border-top: 4px solid var(--accent-blue) !important;
+}
+
+/* Link colors */
+a {
+  color: var(--accent-blue) !important;
+}
+
+a:hover {
+  color: var(--primary-blue) !important;
+}
+
+/* Focus states */
+.mat-mdc-button:focus,
+.mat-mdc-raised-button:focus,
+.mat-mdc-fab:focus {
+  outline: 2px solid var(--accent-blue) !important;
+  outline-offset: 2px !important;
+}
+
+/* Card headers and titles */
+.mat-mdc-card-header {
+  background-color: var(--light-blue) !important;
+}
+
+.mat-mdc-card-title {
+  color: var(--primary-blue) !important;
+}
+
+/* Table headers */
+.mat-mdc-header-cell {
+  background-color: var(--light-blue) !important;
+  color: var(--primary-blue) !important;
+  font-weight: 600 !important;
+}
+
+/* Success/error states */
+.mat-mdc-snack-bar-container.mat-success .mdc-snackbar__surface {
+  background-color: #28A745 !important;
+}
+
+.mat-mdc-snack-bar-container.mat-error .mdc-snackbar__surface {
+  background-color: #DC3545 !important;
+}

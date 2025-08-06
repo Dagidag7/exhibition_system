@@ -1,0 +1,105 @@
+<div class="landing-container">
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Welcome to the Exhibition Management System</h1>
+      <p>Discover amazing products, connect with exhibitors, and experience innovation at its finest</p>
+      <div class="hero-buttons">
+        <button class="register-btn" (click)="openRegisterDialog()">
+          <mat-icon>person_add</mat-icon>
+          Register as Attendee
+        </button>
+        <button class="login-btn" (click)="goToLogin()">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsors Section -->
+  <section class="sponsors-section">
+    <h2>Our Sponsors</h2>
+    <div class="sponsor-logos">
+      <mat-card class="sponsor-card" *ngFor="let sponsor of sponsors">
+        <img [src]="sponsor.logoUrl" [alt]="sponsor.name" class="sponsor-logo" (error)="$event.target.style.display='none'">
+        <div class="sponsor-name">{{ sponsor.name }}</div>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Exhibitors Section -->
+  <section class="exhibitors-section">
+    <h2>Featured Exhibitors</h2>
+    <div class="exhibitor-logos">
+      <mat-card class="exhibitor-card" *ngFor="let exhibitor of exhibitors">
+        <img [src]="exhibitor.logoUrl" [alt]="exhibitor.name" class="exhibitor-logo" (error)="$event.target.style.display='none'">
+        <div class="exhibitor-name">{{ exhibitor.name }}</div>
+        <div class="exhibitor-booth">Booth: {{ exhibitor.boothNumber }}</div>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section">
+    <h2>Featured Products</h2>
+    <div class="product-logos">
+      <mat-card class="product-card" *ngFor="let product of products">
+        <img [src]="product.imageUrl" [alt]="product.name" class="product-logo" (error)="$event.target.style.display='none'">
+        <div class="product-name">{{ product.name }}</div>
+        <div class="product-category">{{ product.category }}</div>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Conferences Section -->
+  <section class="conferences-section">
+    <h2>Upcoming Conferences</h2>
+    <div class="conference-cards">
+      <mat-card class="conference-card" *ngFor="let conference of conferences">
+        <div class="conference-header">
+          <mat-icon class="conference-icon">event</mat-icon>
+          <div class="conference-title">{{ conference.title }}</div>
+        </div>
+        <div class="conference-details">
+          <div class="conference-info">
+            <div class="conference-date">
+              <mat-icon>schedule</mat-icon>
+              <span>{{ getFormattedDate(conference.date) }} at {{ getFormattedTime(conference.time) }}</span>
+            </div>
+            <div class="conference-location">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ conference.location }}</span>
+            </div>
+            <div class="conference-speaker" *ngIf="conference.speaker">
+              <mat-icon>person</mat-icon>
+              <span>{{ conference.speaker }}</span>
+            </div>
+          </div>
+          <div class="conference-description">
+            {{ conference.description }}
+          </div>
+        </div>
+        <div class="conference-actions">
+          <button class="view-details-btn" (click)="openConferenceRegistrationDialog(conference)">
+            <mat-icon>person_add</mat-icon>
+            Register
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; {{ currentYear }} Exhibition Management System. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+</div>

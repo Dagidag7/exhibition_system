@@ -1,0 +1,29 @@
+.partner-form-container {
+  padding: 20px;
+  max-width: 500px;
+}
+
+.partner-form-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.form-actions button {
+  min-width: 100px;
+}
+
+mat-form-field {
+  margin-bottom: 8px;
+} 

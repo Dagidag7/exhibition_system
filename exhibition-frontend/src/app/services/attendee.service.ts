@@ -1,0 +1,42 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Attendee {
+  attendeeId?: number;
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  registrationDate?: string;
+  status?: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AttendeeService {
+  private apiUrl = 'http://localhost:8888/attendees';
+
+  constructor(private http: HttpClient) {}
+
+  registerAttendee(attendee: Attendee): Observable<Attendee> {
+    return this.http.post<Attendee>(this.apiUrl, attendee);
+  }
+
+  getAttendees(): Observable<Attendee[]> {
+    return this.http.get<Attendee[]>(this.apiUrl);
+  }
+
+  getAttendeeById(id: number): Observable<Attendee> {
+    return this.http.get<Attendee>(`${this.apiUrl}/${id}`);
+  }
+
+  updateAttendee(id: number, attendee: Attendee): Observable<Attendee> {
+    return this.http.put<Attendee>(`${this.apiUrl}/${id}`, attendee);
+  }
+
+  deleteAttendee(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+} 

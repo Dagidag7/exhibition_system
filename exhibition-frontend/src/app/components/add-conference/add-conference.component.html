@@ -1,0 +1,47 @@
+<div class="conference-form-container">
+  <h2 mat-dialog-title>{{ isEditMode ? 'Edit Conference' : 'Add New Conference' }}</h2>
+  <form [formGroup]="conferenceForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Conference Title</mat-label>
+      <input matInput formControlName="title" maxlength="200" placeholder="Enter conference title">
+      <mat-error *ngIf="conferenceForm.get('title')?.hasError('required')">Title is required</mat-error>
+      <mat-error *ngIf="conferenceForm.get('title')?.hasError('maxlength')">Title cannot exceed 200 characters</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3" placeholder="Enter conference description"></textarea>
+      <mat-error *ngIf="conferenceForm.get('description')?.hasError('required')">Description is required</mat-error>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Date</mat-label>
+        <input matInput type="date" formControlName="date" placeholder="Choose date">
+        <mat-error *ngIf="conferenceForm.get('date')?.hasError('required')">Date is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" formControlName="time" placeholder="Choose time">
+        <mat-error *ngIf="conferenceForm.get('time')?.hasError('required')">Time is required</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location" placeholder="Enter conference location">
+      <mat-error *ngIf="conferenceForm.get('location')?.hasError('required')">Location is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Speaker</mat-label>
+      <input matInput formControlName="speaker" placeholder="Enter speaker name">
+      <mat-error *ngIf="conferenceForm.get('speaker')?.hasError('required')">Speaker is required</mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!conferenceForm.valid">{{ isEditMode ? 'Update' : 'Add' }} Conference</button>
+    </div>
+  </form>
+</div> 

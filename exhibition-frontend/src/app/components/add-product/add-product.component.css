@@ -1,0 +1,40 @@
+.dialog-container {
+  padding: 20px;
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+mat-dialog-actions button {
+  margin-left: 8px;
+}
+
+h2[mat-dialog-title] {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-weight: 500;
+}
+
+mat-form-field {
+  margin-bottom: 8px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+} 

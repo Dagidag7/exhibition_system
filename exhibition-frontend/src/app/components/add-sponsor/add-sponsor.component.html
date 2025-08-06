@@ -1,0 +1,72 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>{{ isEditMode ? 'Edit Sponsor' : 'Add New Sponsor' }}</h2>
+  
+  <form [formGroup]="sponsorForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Sponsor Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter sponsor name" required>
+          <mat-error *ngIf="sponsorForm.get('name')?.hasError('required')">
+            Sponsor name is required
+          </mat-error>
+          <mat-error *ngIf="sponsorForm.get('name')?.hasError('maxlength')">
+            Sponsor name cannot exceed 100 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contact Person</mat-label>
+          <input matInput formControlName="contactPerson" placeholder="Enter contact person name" required>
+          <mat-error *ngIf="sponsorForm.get('contactPerson')?.hasError('required')">
+            Contact person is required
+          </mat-error>
+          <mat-error *ngIf="sponsorForm.get('contactPerson')?.hasError('maxlength')">
+            Contact person name cannot exceed 100 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contribution Amount</mat-label>
+          <input matInput type="number" formControlName="contributionAmount" placeholder="Enter contribution amount" required>
+          <span matSuffix>$</span>
+          <mat-error *ngIf="sponsorForm.get('contributionAmount')?.hasError('required')">
+            Contribution amount is required
+          </mat-error>
+          <mat-error *ngIf="sponsorForm.get('contributionAmount')?.hasError('min')">
+            Contribution amount must be positive
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Benefits</mat-label>
+          <textarea matInput formControlName="benefits" placeholder="Enter sponsor benefits (optional)" rows="3"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Logo URL</mat-label>
+          <input matInput formControlName="logoUrl" placeholder="Enter logo URL (optional)">
+          <mat-hint>Enter the URL of the sponsor's logo image</mat-hint>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="loading">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="sponsorForm.invalid || loading">
+        <mat-icon *ngIf="loading">hourglass_empty</mat-icon>
+        {{ isEditMode ? 'Update' : 'Create' }} Sponsor
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div> 
