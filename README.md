@@ -2,7 +2,7 @@
 
 ## Project Structure
 -`exhibition-frontend/`: Angular frontend
--`exhibition-backend/: Java/Spring Boot Backend
+-`exhibition-backend/: Java/Vert.x Backend
 
 ##Setup
 ```bas
