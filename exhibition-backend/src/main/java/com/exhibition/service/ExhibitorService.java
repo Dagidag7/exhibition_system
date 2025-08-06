@@ -13,4 +13,5 @@ public interface ExhibitorService {
     void removeExhibitor(int id, Handler<AsyncResult<Void>> resultHandler);
     void updateExhibitorPassword(int exhibitorId, String password, Handler<AsyncResult<Void>> resultHandler);
     void getExhibitorByEmail(String email, Handler<AsyncResult<Exhibitor>> resultHandler);
+    void checkEmailExists(String email, Handler<AsyncResult<Boolean>> resultHandler);
 }
