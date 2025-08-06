@@ -46,4 +46,20 @@ export class ExhibitorService {
   changePassword(id: number, password: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}/password`, { password });
   }
+
+  checkEmailExists(email: string): Observable<{email: string, exists: boolean}> {
+    const encodedEmail = encodeURIComponent(email);
+    return this.http.get<{email: string, exists: boolean}>(`http://localhost:8888/exhibitors/check-email/${encodedEmail}`);
+  }
+
+  /**
+   * Validates email format using a regex pattern
+   * @param email The email to validate
+   * @returns true if email format is valid
+   */
+  isValidEmailFormat(email: string): boolean {
+    if (!email) return false;
+    const emailPattern = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
+    return emailPattern.test(email.trim());
+  }
 }

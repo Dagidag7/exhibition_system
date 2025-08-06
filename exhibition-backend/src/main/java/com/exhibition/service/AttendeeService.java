@@ -11,4 +11,6 @@ public interface AttendeeService {
     void listAttendees(Handler<AsyncResult<List<Attendee>>> resultHandler);
     void updateAttendee(Attendee attendee, Handler<AsyncResult<Void>> resultHandler);
     void removeAttendee(int id, Handler<AsyncResult<Void>> resultHandler);
+    void getAttendeeByEmail(String email, Handler<AsyncResult<Attendee>> resultHandler);
+    void checkEmailExists(String email, Handler<AsyncResult<Boolean>> resultHandler);
 }

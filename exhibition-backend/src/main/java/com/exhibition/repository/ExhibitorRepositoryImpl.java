@@ -240,4 +240,30 @@ public class ExhibitorRepositoryImpl implements ExhibitorRepository {
         
         return exhibitor;
     }
+
+    @Override
+    public void checkEmailExists(String email, Handler<AsyncResult<Boolean>> resultHandler) {
+        MainVerticle.vertx.executeBlocking(promise -> {
+            try {
+                String sql = "SELECT COUNT(*) as count FROM exhibitor WHERE email = ?";
+                
+                jdbc.queryWithParams(sql, new JsonArray().add(email), res -> {
+                    if (res.succeeded()) {
+                        ResultSet rs = res.result();
+                        if (rs.getNumRows() > 0) {
+                            JsonObject row = rs.getRows().get(0);
+                            int count = row.getInteger("count");
+                            promise.complete(count > 0);
+                        } else {
+                            promise.complete(false);
+                        }
+                    } else {
+                        promise.fail(res.cause());
+                    }
+                });
+            } catch (Exception e) {
+                promise.fail(e);
+            }
+        }, resultHandler);
+    }
 }

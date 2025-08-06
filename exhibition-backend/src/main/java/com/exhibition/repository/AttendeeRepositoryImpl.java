@@ -153,6 +153,56 @@ public void addAttendee(Attendee attendee, Handler<AsyncResult<Void>> resultHand
             }
         });
     }
+
+    @Override
+    public void getAttendeeByEmail(String email, Handler<AsyncResult<Attendee>> resultHandler) {
+        String sql = "SELECT * FROM attendee WHERE email = ?";
+        jdbc.getConnection(res -> {
+            if (res.succeeded()) {
+                SQLConnection connection = res.result();
+                connection.queryWithParams(sql, new JsonArray().add(email), ar -> {
+                    connection.close();
+                    if (ar.succeeded() && !ar.result().getRows().isEmpty()) {
+                        JsonObject row = ar.result().getRows().get(0);
+                        Attendee attendee = new Attendee();
+                        attendee.setAttendeeId(row.getInteger("attendee_id"));
+                        attendee.setName(row.getString("name"));
+                        attendee.setEmail(row.getString("email"));
+                        attendee.setPhone(row.getString("phone"));
+                        attendee.setPassword(row.getString("password"));
+                        attendee.setSessionIds(row.getString("session_ids"));
+                        resultHandler.handle(io.vertx.core.Future.succeededFuture(attendee));
+                    } else {
+                        resultHandler.handle(io.vertx.core.Future.failedFuture("Attendee not found"));
+                    }
+                });
+            } else {
+                resultHandler.handle(io.vertx.core.Future.failedFuture(res.cause()));
+            }
+        });
+    }
+
+    @Override
+    public void checkEmailExists(String email, Handler<AsyncResult<Boolean>> resultHandler) {
+        String sql = "SELECT COUNT(*) as count FROM attendee WHERE email = ?";
+        jdbc.getConnection(res -> {
+            if (res.succeeded()) {
+                SQLConnection connection = res.result();
+                connection.queryWithParams(sql, new JsonArray().add(email), ar -> {
+                    connection.close();
+                    if (ar.succeeded()) {
+                        JsonObject row = ar.result().getRows().get(0);
+                        int count = row.getInteger("count");
+                        resultHandler.handle(io.vertx.core.Future.succeededFuture(count > 0));
+                    } else {
+                        resultHandler.handle(io.vertx.core.Future.failedFuture(ar.cause()));
+                    }
+                });
+            } else {
+                resultHandler.handle(io.vertx.core.Future.failedFuture(res.cause()));
+            }
+        });
+    }
 }
 
 // ... existing code ...

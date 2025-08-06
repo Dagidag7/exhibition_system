@@ -83,6 +83,26 @@ export class RegisterAttendeeComponent {
   }
 
   validateForm(): boolean {
+    // Check if all fields are filled
+    if (!this.attendee.name || !this.attendee.email || !this.attendee.phone || !this.attendee.password) {
+      this.snackBar.open('Please fill in all fields!', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
+      return false;
+    }
+
+    // Enhanced email validation
+    if (!this.attendeeService.isValidEmailFormat(this.attendee.email)) {
+      this.snackBar.open('Please enter a valid email address!', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
+      return false;
+    }
+
     // Check if passwords match
     if (this.attendee.password !== this.confirmPassword) {
       this.snackBar.open('Passwords do not match!', 'Close', {
@@ -103,28 +123,30 @@ export class RegisterAttendeeComponent {
       return false;
     }
 
-    // Check if all fields are filled
-    if (!this.attendee.name || !this.attendee.email || !this.attendee.phone || !this.attendee.password) {
-      this.snackBar.open('Please fill in all fields!', 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top'
-      });
-      return false;
-    }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.attendee.email)) {
-      this.snackBar.open('Please enter a valid email address!', 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top'
-      });
-      return false;
-    }
-
     return true;
+  }
+
+  onEmailBlur(): void {
+    if (this.attendee.email && this.attendeeService.isValidEmailFormat(this.attendee.email)) {
+      this.checkEmailExists();
+    }
+  }
+
+  private checkEmailExists(): void {
+    this.attendeeService.checkEmailExists(this.attendee.email).subscribe({
+      next: (response) => {
+        if (response.exists) {
+          this.snackBar.open('This email is already registered!', 'Close', {
+            duration: 4000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top'
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error checking email:', error);
+      }
+    });
   }
 
   onCancel() {

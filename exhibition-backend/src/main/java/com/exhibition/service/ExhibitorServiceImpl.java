@@ -49,4 +49,9 @@ public class ExhibitorServiceImpl implements ExhibitorService {
     public void getExhibitorByEmail(String email, Handler<AsyncResult<Exhibitor>> resultHandler) {
         exhibitorRepository.getExhibitorByEmail(email, resultHandler);
     }
+
+    @Override
+    public void checkEmailExists(String email, Handler<AsyncResult<Boolean>> resultHandler) {
+        exhibitorRepository.checkEmailExists(email, resultHandler);
+    }
 }

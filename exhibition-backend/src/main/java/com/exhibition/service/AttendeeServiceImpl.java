@@ -39,4 +39,14 @@ public class AttendeeServiceImpl implements AttendeeService {
     public void removeAttendee(int id, Handler<AsyncResult<Void>> resultHandler) {
         attendeeRepository.deleteAttendee(id, resultHandler);
     }
+
+    @Override
+    public void getAttendeeByEmail(String email, Handler<AsyncResult<Attendee>> resultHandler) {
+        attendeeRepository.getAttendeeByEmail(email, resultHandler);
+    }
+
+    @Override
+    public void checkEmailExists(String email, Handler<AsyncResult<Boolean>> resultHandler) {
+        attendeeRepository.checkEmailExists(email, resultHandler);
+    }
 }

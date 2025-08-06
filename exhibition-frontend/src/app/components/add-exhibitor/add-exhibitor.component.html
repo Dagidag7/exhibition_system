@@ -12,7 +12,8 @@
   
   <mat-form-field appearance="fill" class="full-width">
     <mat-label>Email</mat-label>
-    <input matInput name="email" [(ngModel)]="exhibitor.email" required type="email">
+    <input matInput name="email" [(ngModel)]="exhibitor.email" required type="email" (blur)="onEmailBlur()">
+    <mat-hint>We'll check if this email is already registered</mat-hint>
   </mat-form-field>
   
   <mat-form-field appearance="fill" class="full-width">
