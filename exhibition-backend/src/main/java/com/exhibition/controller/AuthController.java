@@ -1,0 +1,137 @@
+package com.exhibition.controller;
+
+import com.exhibition.service.AuthService;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.BodyHandler;
+
+public class AuthController {
+    
+    public static void registerRoutes(Router router, AuthService authService) {
+        router.route("/auth/*").handler(BodyHandler.create());
+        
+        router.post("/auth/login").handler(ctx -> login(ctx, authService));
+        router.get("/auth/me").handler(ctx -> getCurrentUser(ctx, authService));
+        router.post("/auth/logout").handler(ctx -> logout(ctx, authService));
+        router.post("/auth/change-password").handler(ctx -> changePassword(ctx, authService));
+    }
+    
+    private static void login(RoutingContext ctx, AuthService authService) {
+        try {
+            JsonObject body = ctx.getBodyAsJson();
+            String email = body.getString("email");
+            String password = body.getString("password");
+            
+            if (email == null || password == null) {
+                ctx.response()
+                    .setStatusCode(400)
+                    .putHeader("Content-Type", "application/json")
+                    .end(new JsonObject()
+                        .put("error", "Email and password are required")
+                        .encode());
+                return;
+            }
+            
+            authService.authenticateUser(email, password, result -> {
+                if (result.succeeded()) {
+                    JsonObject userData = result.result();
+                    ctx.response()
+                        .setStatusCode(200)
+                        .putHeader("Content-Type", "application/json")
+                        .end(new JsonObject()
+                            .put("user", userData)
+                            .put("token", "dummy-token-" + System.currentTimeMillis()) // In real app, use JWT
+                            .put("role", userData.getString("role"))
+                            .encode());
+                } else {
+                    ctx.response()
+                        .setStatusCode(401)
+                        .putHeader("Content-Type", "application/json")
+                        .end(new JsonObject()
+                            .put("error", "Invalid credentials")
+                            .encode());
+                }
+            });
+            
+        } catch (Exception e) {
+            ctx.response()
+                .setStatusCode(500)
+                .putHeader("Content-Type", "application/json")
+                .end(new JsonObject()
+                    .put("error", "Internal server error")
+                    .encode());
+        }
+    }
+    
+    private static void getCurrentUser(RoutingContext ctx, AuthService authService) {
+        // In a real application, you would verify the JWT token here
+        String authHeader = ctx.request().getHeader("Authorization");
+        
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            ctx.response()
+                .setStatusCode(401)
+                .putHeader("Content-Type", "application/json")
+                .end(new JsonObject()
+                    .put("error", "Unauthorized")
+                    .encode());
+            return;
+        }
+        
+        // For now, we'll return a mock user (in real app, decode JWT and get user from DB)
+        JsonObject mockUser = new JsonObject()
+            .put("id", 1)
+            .put("email", "admin@exhibition.com")
+            .put("name", "Admin User")
+            .put("role", "admin");
+            
+        ctx.response()
+            .setStatusCode(200)
+            .putHeader("Content-Type", "application/json")
+            .end(mockUser.encode());
+    }
+    
+    private static void logout(RoutingContext ctx, AuthService authService) {
+        // In a real application, you would invalidate the JWT token here
+        ctx.response()
+            .setStatusCode(200)
+            .putHeader("Content-Type", "application/json")
+            .end(new JsonObject()
+                .put("message", "Logged out successfully")
+                .encode());
+    }
+    
+    private static void changePassword(RoutingContext ctx, AuthService authService) {
+        try {
+            JsonObject body = ctx.getBodyAsJson();
+            String currentPassword = body.getString("currentPassword");
+            String newPassword = body.getString("newPassword");
+            
+            if (currentPassword == null || newPassword == null) {
+                ctx.response()
+                    .setStatusCode(400)
+                    .putHeader("Content-Type", "application/json")
+                    .end(new JsonObject()
+                        .put("error", "Current password and new password are required")
+                        .encode());
+                return;
+            }
+            
+            // For now, just return success (in real app, verify current password and update)
+            ctx.response()
+                .setStatusCode(200)
+                .putHeader("Content-Type", "application/json")
+                .end(new JsonObject()
+                    .put("message", "Password changed successfully")
+                    .encode());
+                    
+        } catch (Exception e) {
+            ctx.response()
+                .setStatusCode(500)
+                .putHeader("Content-Type", "application/json")
+                .end(new JsonObject()
+                    .put("error", "Internal server error")
+                    .encode());
+        }
+    }
+} 
